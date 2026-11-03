@@ -59,27 +59,36 @@ Showing live Google reviews inside the page needs Google's paid/keyed Places API
 - The map embed and the "See Google reviews" / "Leave a review" buttons open your real Google listing.
 - To show specific reviews on the page, paste the exact text with the reviewer's name in `src/data/reviews.js`. Do not edit or invent reviews.
 
-## 5. Deploy: GitHub, Vercel, domain
-1. Create a free GitHub account and a new empty repository (for example `dreamy-look-studio`).
-2. In this folder: `git init`, `git add .`, `git commit -m "Initial website"`, `git branch -M main`, `git remote add origin <your repo URL>`, `git push -u origin main`.
-3. On https://vercel.com sign in with GitHub, choose **Add New > Project**, import the repository.
-4. Framework preset **Vite**; build command `npm run build`; output directory `dist` (Vercel detects these). Deploy.
-5. Project **Settings > Domains**, add `dreamylookstudio.in` (and `www.dreamylookstudio.in`).
-6. Vercel shows the exact DNS records to add. Copy those from Vercel into your domain registrar's DNS settings. Do not guess them.
-7. Wait for DNS to update, then check that https://dreamylookstudio.in loads with the padlock (HTTPS is issued automatically).
-8. If you want `www` to redirect to the main domain, set that in Vercel's domain settings.
+## 5. Deploy: GitHub + Cloudflare Pages + custom domain
 
-The project is a static site and fits Vercel's free Hobby plan, but check Vercel's current terms (Hobby is for non-commercial use; a business site may need a paid plan).
+This project is a static Vite site. Cloudflare Pages builds it from the GitHub repository.
+
+### Build settings
+- Production branch: `main`
+- Framework preset: `None` (this is Vanilla JavaScript + Vite, not React)
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Root directory: leave blank when `package.json` is in the repository root
+- Environment variables: none are required for the current static site
+
+### Connect GitHub to Cloudflare Pages
+1. Push the complete contents of this project to the root of the GitHub repository. The `index.html`, `package.json`, `vite.config.js`, `src/` and `public/` must all be at the repository root level.
+2. In Cloudflare Dashboard, open **Workers & Pages > Create application > Pages > Import an existing Git repository**.
+3. Authorize the GitHub account and select the repository.
+4. Enter the build settings above, then choose **Save and Deploy**.
+5. After a successful deployment, Cloudflare provides a `*.pages.dev` URL for checking the site.
+6. In the Pages project, open **Custom domains** and add `dreamylookstudio.in` (also add `www.dreamylookstudio.in` if you want both hostnames).
+7. Follow the exact DNS instructions Cloudflare displays. Do not guess or delete existing mail-related MX/TXT records. HTTPS is provisioned after the domain is correctly connected.
+
+New commits to the connected `main` branch trigger automatic deployments. The `vercel.json` file, if present, is not used by Cloudflare Pages.
 
 ## 6. Google Search Console
 1. Open https://search.google.com/search-console/ and sign in with the Google account that should own the site.
 2. **Add property > Domain** and enter `dreamylookstudio.in`.
-3. Google shows a TXT record. Add exactly that record at your domain registrar's DNS, then click Verify (can take some time).
-4. **Sitemaps**: enter `sitemap.xml` and submit (https://dreamylookstudio.in/sitemap.xml).
-5. **URL inspection**: paste `https://dreamylookstudio.in/`, run **Test live URL**, then **Request indexing**.
-6. Check **Pages** (indexing) and **Performance** reports after a few days.
-7. Troubleshooting: if a page is "Blocked by robots.txt" check `public/robots.txt`; "Page with redirect" means the www/non-www redirect is working; "Crawled, currently not indexed" usually just needs time and good content; make sure Vercel shows the domain as valid with no errors.
-Indexing is never instant and cannot be guaranteed.
+3. Google shows a TXT record. Add exactly that record in the active DNS provider, then click Verify.
+4. Under **Sitemaps**, submit `sitemap.xml` (the full URL is `https://dreamylookstudio.in/sitemap.xml`).
+5. Under **URL inspection**, test `https://dreamylookstudio.in/`, then request indexing if the live test succeeds.
+6. Review the **Pages** and **Performance** reports over time. Indexing and ranking are not immediate or guaranteed.
 
 ## 7. Local SEO: Google Business Profile checklist (for Lovely)
 Official: https://business.google.com/

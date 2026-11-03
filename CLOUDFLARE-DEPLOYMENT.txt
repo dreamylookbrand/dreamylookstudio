@@ -1,0 +1,18 @@
+DREAMY LOOK STUDIO & ACADEMY — CLOUDFLARE PAGES
+
+GitHub repository root must contain: index.html, package.json, package-lock.json, vite.config.js, src/ and public/.
+
+Cloudflare Pages settings:
+  Production branch: main
+  Framework preset: None
+  Build command: npm run build
+  Build output directory: dist
+  Root directory: (blank)
+  Environment variables: none required for the current static site
+
+Important:
+- Extract this ZIP and put its CONTENTS directly in the GitHub repository root. Do not put them inside an extra nested folder.
+- Keep both src/ and public/ folders. They are required for the build and the site's images/SEO files.
+- The originals/ folder contains full-size source photos and is intentionally excluded from this deployment ZIP; optimized website images are already in public/.
+- After deployment succeeds, add dreamylookstudio.in under the Pages project's Custom domains and follow the exact DNS records Cloudflare displays.
+- Do not delete mail MX/TXT DNS records.

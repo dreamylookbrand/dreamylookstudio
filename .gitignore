@@ -6,3 +6,4 @@ dist
 # Full-size original photos stay on your computer (not needed for deployment)
 originals/
 tmp/
+.wrangler/
